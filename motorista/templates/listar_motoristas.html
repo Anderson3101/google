@@ -1,0 +1,141 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel="stylesheet" href="{% static '/css/listar_motoristas.css'%}">
+  <script src="{% static 'js/filtros_motoristas.js' %}"></script>
+  <script src="{% static 'js/pesquisa_motoristas.js' %}"></script>
+
+  <title>Lista de Motoristas</title>
+</head>
+
+<body>
+
+  {% block sidebar %}
+  {% include 'nav.html' %}
+  {% endblock %}
+
+  <main>
+
+    <div class="title">
+      <h1>Motoristas</h1>
+    </div>
+    <div class="container_pesquisa">
+      <div class="search_add">
+        <div class="search">
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
+            <path
+              d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z" />
+          </svg>
+          <input type="search" id="search" placeholder="Pesquise por nome, CPF ou CNPJ" oninput="pesquisarMotoristas()">
+  
+        </div>
+        <div class="linetop"></div>
+        <div class="btn_adicionar">
+          <a href="/cadastro_motorista/">
+            <span>Adicionar motorista</span>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="pagination-container">
+        <div class="pagination">
+          {% if motoristas.paginator.num_pages > 1 %}
+            {% for i in motoristas.paginator.page_range %}
+              {% if i == motoristas.number %}
+                  <span class="current">{{ i }}</span>
+                {% elif i == 1 or i == motoristas.paginator.num_pages or i >= motoristas.number|add:"-2" and i <= motoristas.number|add:"2" %}
+                  <a href="?page={{ i }}&exibir={{ exibir }}&status={{ status }}&data={{ ordem_data }}" class="page-link">{{ i }}</a>
+                {% elif i == motoristas.number|add:"-3" or i == motoristas.number|add:"3" %}
+                  <span class="dots">...</span>
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+        </div>
+        <div class="filtros_container">
+
+          <div class="data_container">
+            <div class="title_status">
+                <h3>Ordenar</h3>
+            </div>
+            <select name="ordem" class="ordem" id="ordem" onchange="filtrar()">
+                <option value="-id" {% if ordem_id == '-id' %}selected{% endif %}>Mais Recentes</option>
+                <option value="id" {% if ordem_id == 'id' %}selected{% endif %}>Mais Antigos</option>
+            </select>
+        </div>
+        
+
+          <div class="status_container">
+            <div class="title_status">
+              <h3>Status</h3>
+            </div>
+            <select name="status" id="status" onchange="filtrar()">
+              <option value="">Todos</option>
+              <option value="Ativos" {% if status == 'Ativos' %}selected{% endif %}>Ativo</option>
+              <option value="Desativado" {% if status == 'Desativado' %}selected{% endif %}>Inativo</option>
+            </select>
+          </div>
+
+          <div class="exibir_container">
+            <div class="title_status">
+              <h3>Exibir</h3>
+            </div>
+            <select name="exibir" id="exibir" onchange="filtrar()">
+              <option value="10" {% if exibir == 10 %}selected{% endif %}>Listar 10 por página</option>
+              <option value="20" {% if exibir == 20 %}selected{% endif %}>Listar 20 por página</option>
+              <option value="30" {% if exibir == 30 %}selected{% endif %}>Listar 30 por página</option>
+              <option value="40" {% if exibir == 40 %}selected{% endif %}>Listar 40 por página</option>
+            </select>
+          </div>
+
+        </div>
+
+        <div class="tabela_container">
+          <div id="lista_motoristas">
+            <div class="tabela_body">
+              <div class="tabela_head">
+                <ul>
+                  <li>Nome</li>
+                  <li>CPF ou CNPJ</li>
+                  <li>Celular</li>
+                  <li>E-Mail</li>
+                  <li>Status</li>
+                </ul>
+              </div>
+              {% for motorista in motoristas %}
+              <a href="{% url 'editar_motorista' motorista.pk %}">
+                <ul class="infos">
+                  <li class="motorista_nome">{{ motorista.nome }}</li>
+                  <li>
+                    {% if motorista.cnpj %}
+                    {{ motorista.cnpj }}
+                    {% elif motorista.cpf %}
+                    {{ motorista.cpf }}
+                    {% endif %}
+                  </li>
+                  <li>{{ motorista.celular }}</li>
+                  <li>{{ motorista.email }}</li>
+                  <li>
+                    {% if motorista.status %}
+                    Ativo
+                    {% else %}
+                    Inativo
+                    {% endif %}
+                  </li>
+                </ul>
+              </a>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+  </main>
+</body>
+
+</html>

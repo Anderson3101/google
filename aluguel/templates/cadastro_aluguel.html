@@ -1,0 +1,118 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Incluindo os arquivos CSS e JS -->
+    <link rel="stylesheet" href="{% static 'css/cadastro.css' %}">
+    <script src="{% static 'js/jquery-3.7.1.min.js' %}"></script>
+    <script src="{% static 'js/jquery.mask.min.js' %}"></script>
+    <script src="{% static 'js/mascara.aluguel.js' %}"></script>
+    <script src="{% static 'js/cadastro_aluguel.js' %}"></script>
+    <title>Cadastrar Aluguel</title>
+</head>
+<body>
+    {% block sidebar %}
+        {% include 'nav.html' %}
+    {% endblock %}
+
+    <main>
+        <div class="title">
+            <h1>Adicionar Aluguel</h1>
+        </div>
+        <div class="container">
+            <nav class="navbar">
+                <ul>
+                    <li>
+                        <span href="">Aluguel</span>
+                    </li>
+                </ul>
+            </nav>
+            <div class="line_nav"></div>
+            <form method="POST">
+                {% csrf_token %}
+                <div class="flex">
+                    <div class="flex1">
+                        <div class="form-group">
+                            <label for="taxa">Taxa</label>
+                            <input class="taxa" type="text" name="taxa" id="taxa" placeholder="Digite a taxa de garantia" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="data_pagamento">Data do Pagamento</label>
+                            <input type="date" name="data_pagamento" id="data_pagamento" required>
+                        </div>
+                        <div class="form-group" style="position: relative;">
+                            <label for="veiculo_search">Veículo</label>
+                            <input type="text" id="veiculo_search" placeholder="Digite a placa do veículo">
+                            <input type="hidden" id="veiculo_id" name="veiculo">
+                            <div id="veiculo_suggestions" class="suggestions"></div>
+                        </div>
+                        <div class="form-group" style="position: relative;">
+                            <label for="motorista_search">Motorista</label>
+                            <input type="text" id="motorista_search" placeholder="Digite o nome do motorista">
+                            <input type="hidden" id="motorista_id" name="motorista">
+                            <div id="motorista_suggestions" class="suggestions"></div>
+                        </div>
+                    </div>
+                    <div class="flex2">
+                        <div class="form-group">
+                            <label for="km_atual">Quilômetro Atual</label>
+                            <input type="text" name="km_atual" id="km_atual" placeholder="Digite o quilometro atual" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="data_inicio">Data Início</label>
+                            <input type="date" name="data_inicio" id="data_inicio">
+                        </div>
+                        <div class="form-group">
+                            <label for="data_fim">Data Fim</label>
+                            <input type="date" name="data_fim" id="data_fim">
+                        </div>
+                        <div class="form-group">
+                            <label for="tipo">Tipo do pagamento</label>
+                            <select name="tipo" id="tipo">
+                                <option value="">Selecione o tipo de pagamento</option>
+                                <option value="Recorrente">Recorrente</option>
+                                <option value="Valor total">Valor total</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Bloco de campos para pagamento Recorrente -->
+                        <div id="recorrente_fields" style="display: none;">
+                            <div class="form-group">
+                                <label for="valor_semanal">Valor semanal</label>
+                                <input type="text" name="valor_semanal" id="valor_semanal" placeholder="Digite o valor semanal do aluguel">
+                            </div>
+                            <div class="form-group">
+                                <label for="dia_debito">Dia do débito</label>
+                                <select name="dia_debito" id="dia_debito">
+                                    <option value="">Selecione o dia da semana</option>
+                                    <option value="Segunda-feira">Segunda-feira</option>
+                                    <option value="Terça-feira">Terça-feira</option>
+                                    <option value="Quarta-feira">Quarta-feira</option>
+                                    <option value="Quinta-feira">Quinta-feira</option>
+                                    <option value="Sexta-feira">Sexta-feira</option>
+                                    <option value="Sábado">Sábado</option>
+                                    <option value="Domingo">Domingo</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <!-- Bloco de campo para pagamento Valor total -->
+                        <div id="valor_total_field" style="display: none;">
+                            <div class="form-group">
+                                <label for="valor_pago">Valor pago</label>
+                                <input type="text" name="valor_pago" id="valor_pago" placeholder="Digite o valor total pago">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="submit-btn">
+                    <button type="submit">Cadastrar</button>
+                </div>
+            </form>
+        </div>
+    </main>
+</body>
+</html>

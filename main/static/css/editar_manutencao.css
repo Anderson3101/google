@@ -1,0 +1,134 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
+
+:root{
+    --background_color: #F6F7F9;
+    --cor_cards: #fff;
+    --cor_secundaria: #3563E9;
+    --cor_linha: #C3D4E9;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+*{
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    margin: 0;  
+    padding: 0;
+    list-style: none;
+    text-decoration: none;
+    outline: none;
+    box-sizing: border-box;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    min-height: 120dvh;
+    background-color: var(--background_color);
+    display: grid;
+    grid-template-columns: auto 1fr;
+}
+
+.title h1 {
+    padding: 20px 60px;
+}
+
+.container {
+    position: relative;
+    width: 70vw;
+    height: 700px;
+    background-color: #fff;
+    border-radius: 20px;
+    margin: 0px 60px;
+}
+
+.form_flex{
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+}
+
+.flex1{
+    margin-top: 40px;
+}
+
+.flex2{
+    margin-top: 40px;
+}
+
+.input_form {
+    display: grid;
+    margin-top: 30px;
+}
+
+.input_form input, select {
+    width: 400px;
+    height: 40px;
+    border-radius: 10px;
+    border: 1px solid #626262;
+    background-color: #F7F7F7;
+    margin-top: 5px;
+    padding: 0px 20px;
+}
+
+.input_form input:focus {
+    border: 2px solid #3563E9;
+}
+
+.input_form select:focus {
+    border: 2px solid #3563E9;
+}
+
+.input_form textarea:focus {
+    border: 2px solid #3563E9;
+}
+
+.input_form label{
+    font-weight: 400;
+}
+
+.input_form .observacao {
+    width: 400px;
+    height: 138px;
+    border-radius: 10px;
+    border: 1px solid #626262;
+    background-color: #F7F7F7;
+    margin-top: 5px;
+    padding: 10px 20px;
+}
+
+.submit-btn {
+    text-align: center;
+    margin-top: 20px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+
+.submit-btn button{
+    border: none;
+    background-color: var(--cor_secundaria);
+    color: var(--cor_cards);
+    border-radius: 20px;
+    width: 200px;
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 70px;
+}
+
+.submit-btn button:hover{
+    background-color: #2c52c3;
+    transition: background-color 0.2s;
+}
+
+.submit-btn button:active{
+    background-color: #213d92;
+    transition: background-color 0.2s;
+}

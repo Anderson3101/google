@@ -1,0 +1,139 @@
+{%load static%}
+
+<!DOCTYPE html>
+
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=search" />
+    <link rel="stylesheet" href="{% static '/css/listar_veiculo.css'%}">
+    <script src="{% static 'js/filtros_veiculos.js' %}"></script>
+    <script src="{% static 'js/pesquisa_veiculos.js' %}"></script>
+
+    <title>Lista de Veiculos</title>
+  </head>
+  
+  <body>
+
+    {% block sidebar %}
+            {% include 'nav.html' %}
+    {% endblock %}
+
+    <main>
+
+      <div class="title">
+        <h1>Veículos</h1>
+      </div>
+
+      <div class="filtros">
+
+        <div class="status_exibir_container">
+
+          <h3>Filtros</h3>
+
+          <div class="line"></div>
+
+          <div class="status_exibir">
+
+            <div class="status_container">
+              <div class="title_status">
+                <h3>Status</h3>
+              </div>
+
+              <div class="status">
+                <select name="status" id="status" onchange="filtrar()">
+                  <option value="">Todos</option>
+                  <option value="Disponível" {% if status == "Disponível" %}selected{% endif %}>Disponível</option>
+                  <option value="Indisponível" {% if status == "Indisponível" %}selected{% endif %}>Indisponível</option>
+                  <option value="Ocupado" {% if status == "Ocupado" %}selected{% endif %}>Ocupado</option>
+                  <option value="Manutencao" {% if status == "Manutencao" %}selected{% endif %}>Em Manutenção</option>
+                </select>
+              </div>
+            </div>
+            <div class="exibir_container">
+              <div class="title_exibir">
+                <h3>Exibir</h3>
+              </div>
+              <div class="exibir">
+                <select name="exibir" id="exibir" onchange="filtrar()">
+                  <option value="10" {% if exibir == 10 %}selected{% endif %}>Listar 10 por página</option>
+                  <option value="20" {% if exibir == 20 %}selected{% endif %}>Listar 20 por página</option>
+                  <option value="30" {% if exibir == 30 %}selected{% endif %}>Listar 30 por página</option>
+                  <option value="40" {% if exibir == 40 %}selected{% endif %}>Listar 40 por página</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="linev"></div>
+
+        </div>
+
+        <div class="pesquisa_container">
+          <div class="pesquisa">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"/></svg>
+            <input type="search" id="pesquisa" placeholder="Pesquisar por placas, modelos ou marcas" oninput="pesquisarVeiculos()">
+        </div>
+        
+      
+          <div class="line"></div>
+          <div class="btn_adicionar">
+              <a href="/cadastro_veiculo/">
+                  <span>Adicionar veiculo</span>
+              </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="lista_container">
+
+      <div class="grid-container" id="lista_veiculos">
+          {% for veiculo in veiculos %}
+          <div class="card">
+            <div class="marca">
+              <h3>{{ veiculo.marca }}</h3>
+            </div>
+            <div class="placa_modelo">
+              <p>{{ veiculo.modelo }}</p>
+              <p class="p_placa" >{{ veiculo.placa }}</p>
+            </div> 
+            <div class="imagem">
+              <img src="{% static 'icons/Car.png'%}" alt="Foto de carro">
+            </div>             
+            <div class="ano_status">
+              <p class="p_ano">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M360-300q-42 0-71-29t-29-71q0-42 29-71t71-29q42 0 71 29t29 71q0 42-29 71t-71 29ZM200-80q-33 0-56.5-23.5T120-160v-560q0-33 23.5-56.5T200-800h40v-80h80v80h320v-80h80v80h40q33 0 56.5 23.5T840-720v560q0 33-23.5 56.5T760-80H200Zm0-80h560v-400H200v400Zm0-480h560v-80H200v80Zm0 0v-80 80Z"/></svg>
+                {{ veiculo.ano }}
+              </p>
+              <p class="p_status">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="16" height="16" rx="8" fill="{% if veiculo.status == 'Indisponível' %}#CE0000{% else %}#3563E9{% endif %}" fill-opacity="0.3"/><circle cx="8" cy="8" r="4" fill="{% if veiculo.status == 'Indisponível' %}#CE0000{% else %}#3563E9{% endif %}"/></svg>
+                {{ veiculo.status }}
+              </p>
+            </div>
+            <div class="btn_editar">
+              <a href="{% url 'editar_veiculo' veiculo.pk %}">Editar</a>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+
+        <div class="pagination-container">
+          <div class="pagination">
+            {% if veiculos.paginator.num_pages > 1 %}
+                {% for i in veiculos.paginator.page_range %}
+                    {% if i == veiculos.number %}
+                        <span class="current">{{ i }}</span>
+                    {% elif i == 1 or i == veiculos.paginator.num_pages or i >= veiculos.number|add:"-2" and i <= veiculos.number|add:"2" %}
+                        <a href="?page={{ i }}&exibir={{ exibir }}&status={{ status }}" class="page-link">{{ i }}</a>
+                    {% elif i == veiculos.number|add:"-3" or i == veiculos.number|add:"3" %}
+                        <span class="dots">...</span>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+          </div>
+      </div>
+      
+      </div>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,128 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="{% static 'js/cadastro_motorista.js' %}" defer></script>
+    <script src="{% static 'js/jquery-3.7.1.min.js' %}" defer></script>
+    <script src="{% static 'js/jquery.mask.min.js' %}" defer></script>
+    <script src="{% static 'js/mascara_motorista.js' %}" defer></script>
+    <link rel="stylesheet" href="{% static '/css/cadastro_motorista.css' %}">
+
+    <title>Cadastrar motorista</title>
+</head>
+
+    <body>
+        {% block sidebar %}
+            {% include 'nav.html' %}
+        {% endblock %}
+
+        <main>
+            <div class="title">
+                <h1>Motorista</h1>
+            </div>
+            <div class="container">
+                <nav class="navbar">
+                    <ul>
+                        <li>
+                            <a href="">Cadastro</a>
+                            <a href="">Endereço</a>
+                        </li>
+                    </ul>
+                </nav>
+                <div class="line_nav"></div>
+                <form method="POST"> {% csrf_token %}
+                    
+                        <div class="form_flex" id="pessoal">
+                            <div class="flex1">
+                                <div class="input_form">
+                                    <label for="nome">Nome</label>
+                                    <input type="text" class="nome" name="nome" placeholder="Digite o nome do motorista" value="{{ motorista.nome }}">
+                                </div>
+                                <div class="input_form">
+                                    <label for="email">E-mail</label>
+                                    <input type="text" class="email" name="email" placeholder="exemplo@gmail.com" value="{{ motorista.email }}">
+                                </div>
+                                <div class="input_form">
+                                    
+                                    <label for="cnpj">CNPJ</label>
+                                    <input type="text" class="cnpj" name="cnpj" placeholder="Digite o CNPJ" value="{{ motorista.cnpj }}">
+                                </div>
+                                <div class="input_form">
+                                    
+                                    <label for="cpf">CPF</label>
+                                    <input type="text" class="cpf" name="cpf" placeholder="Digite o CPF" value="{{ motorista.cpf }}">
+                                </div>
+                            </div>
+                            <div class="flex2">                            
+                                <div class="input_form">
+        
+                                    <label for="telefone">Telefone</label>
+                                    <input type="text" class="phone_with_ddd" name="telefone" placeholder="Digite o telefone" value="{{ motorista.telefone }}">
+                                </div>
+                                <div class="input_form">
+        
+                                    <label for="celular">Celular</label>
+                                    <input type="text" class="number_with_ddd" name="celular" placeholder="Digite celular" value="{{ motorista.celular }}">
+                                </div>
+                                <div class="input_form">
+                                    <label for="observacao">Observacão</label>
+                                    <textarea class="observacao" type="text" class="observacao" name="observacao" placeholder="Faça uma obervação" value="{{ motorista.observacao }}"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form_flex" id="endereco">
+                            <div class="flex1">
+                                <div class="input_form">
+    
+                                    <label for="cep">CEP:</label>
+                                    <input type="text" class="cep" name="cep" value="{{ motorista.cep }}">
+                                </div>
+                                <div class="input_form">
+                                    
+                                    <label for="endereco">Endereço:</label>
+                                    <input type="text" class="endereco" name="endereco" value="{{ motorista.endereco }}">
+                                </div>
+                                <div class="input_form">
+    
+                                    <label for="numero">Numero:</label>
+                                    <input type="text" class="numero" name="numero" value="{{ motorista.numero }}">
+                                </div>
+                            </div>
+                            <div class="flex2">
+    
+                                <div class="input_form">
+                                    
+                                    <label for="bairro">Bairro:</label>
+                                    <input type="text" class="bairro" name="bairro" value="{{ motorista.bairro }}">
+                                </div>
+                                <div class="input_form">
+    
+                                    <label for="cidade">Cidade:</label>
+                                    <input type="text" class="cidade" name="cidade" value="{{ motorista.cidade }}">
+                                </div>
+                                <div class="input_form">
+    
+                                    <label for="estado">Estado:</label>
+                                    <input type="text" class="estado" name="estado" value="{{ motorista.estado }}">
+                                </div>
+                                <div class="stats">
+                                    <input type="checkbox" id="status_ativo" name="status" value="true">
+                                    <label for="status_ativo" class="status-label">Ativo</label>
+                            
+                                    <input type="checkbox" id="status_inativo" name="status" value="false">
+                                    <label for="status_inativo" class="status-label" >Inativo</label>
+                                </div>
+                            </div>
+                        </div>
+                    
+                    <div class="submit-btn">
+                        <button type="submit">Cadastrar</button>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </body>
+</html>

@@ -1,0 +1,115 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Incluindo os arquivos CSS e JS. Aqui, reutilizamos o CSS do cadastro de aluguel -->
+    <link rel="stylesheet" href="{% static 'css/cadastro.css' %}">
+    <script src="{% static 'js/cadastro_veiculo.js' %}"></script>
+    <script src="{% static 'js/jquery-3.7.1.min.js' %}"></script>
+    <script src="{% static 'js/jquery.mask.min.js' %}"></script>
+    <script src="{% static 'js/mascara.js' %}"></script>
+    <title>Cadastrar Veículo</title>
+</head>
+<body>
+    {% block sidebar %}
+        {% include 'nav.html' %}
+    {% endblock %}
+
+    <main>
+        <div class="title">
+            <h1>Adicionar Veículo</h1>
+        </div>
+        <div class="container">
+            <!-- Barra de navegação para o cadastro de veículo -->
+            <nav class="navbar">
+                <ul>
+                    <li>
+                        <span>Veículo</span>
+                    </li>
+                </ul>
+            </nav>
+            <div class="line_nav"></div>
+
+            <form method="POST">
+                {% csrf_token %}
+                <div class="flex">
+                    <!-- Coluna Esquerda -->
+                    <div class="flex1">
+                        <div class="form-group">
+                            <label for="marca">Marca</label>
+                            <select name="marca" id="marca">
+                                <option value="" selected>Selecione uma marca</option>
+                                <option value="Chevrolet">Chevrolet</option>
+                                <option value="Fiat">Fiat</option>
+                                <option value="Honda">Honda</option>
+                                <option value="Peugeot">Peugeot</option>
+                                <option value="Jeep">Jeep</option>
+                                <option value="Toyota">Toyota</option>
+                                <option value="Hyundai">Hyundai</option>
+                                <option value="Volkswagen">Volkswagen</option>
+                                <option value="Renault">Renault</option>
+                                <option value="Nissan">Nissan</option>
+                                <option value="Ford">Ford</option>
+                                <option value="Kia">Kia</option>
+                                <option value="BYD">BYD</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="modelo">Modelo</label>
+                            <select name="modelo" id="modelo">
+                                <option value="">Selecione um modelo</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="combustivel">Combustível</label>
+                            <select name="combustivel" id="combustivel">
+                                <option value="">Selecione o tipo do combustível</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="ano">Ano</label>
+                            <select name="ano" id="ano">
+                                <option value="">Selecione o ano</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Coluna Direita -->
+                    <div class="flex2">
+                        <div class="form-group">
+                            <label for="placa">Placa</label>
+                            <input type="text" name="placa" id="placa" class="placa" placeholder="Digite a placa do veículo" oninput="this.value = this.value.toUpperCase();">
+                        </div>
+                        <div class="form-group">
+                            <label for="km_atual">Quilômetro Atual</label>
+                            <input type="text" name="km_atual" id="km_atual" class="km_atual" placeholder="Digite o quilômetro atual">
+                        </div>
+                        <div class="form-group">
+                            <label for="status">Status</label>
+                            <select name="status" id="status">
+                                <option value="Disponível">Disponível</option>
+                                <option value="Indisponível">Indisponível</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="cambio">Câmbio</label>
+                            <select name="cambio" id="cambio">
+                                <option value="Manual">Manual</option>
+                                <option value="Automático">Automático</option>
+                                <option value="Automatizado">Automatizado</option>
+                                <option value="CVT">CVT</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="submit-btn">
+                    <button type="submit">Cadastrar</button>
+                </div>
+            </form>
+        </div>
+    </main>
+</body>
+</html>

@@ -1,0 +1,86 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/cadastro.css' %}">
+    <script src="{% static 'js/jquery-3.7.1.min.js' %}"></script>
+    <script src="{% static 'js/jquery.mask.min.js' %}"></script>
+    <script src="{% static 'js/cadastro_aluguel.js' %}"></script>
+    <title>Adicionar Manutenção</title>
+</head>
+<body>
+    {% block sidebar %}
+        {% include 'nav.html' %}
+    {% endblock %}
+
+    <main>
+        <div class="title">
+            <h1>Adicionar Manutenção</h1>
+        </div>
+        <div class="container">
+            <!-- Barra de navegação específica para Manutenção -->
+            <nav class="navbar">
+                <ul>
+                    <li>
+                        <span>Manutenção</span>
+                    </li>
+                </ul>
+            </nav>
+            <div class="line_nav"></div>
+
+            <form method="POST">
+                {% csrf_token %}
+                <div class="flex">
+                    <div class="flex1">
+                        <div class="form-group">
+                            <label for="data_manutencao">Data da Manutenção</label>
+                            <input type="date" id="data_manutencao" name="data_manutencao" required>
+                        </div>
+                        <div class="form-group" style="position: relative;">
+                            <label for="veiculo_search">Veículo</label>
+                            <input type="text" id="veiculo_search" placeholder="Digite a placa do veículo">
+                            <input type="hidden" id="veiculo_id" name="veiculo">
+                            <div id="veiculo_suggestions" class="suggestions"></div>
+                        </div>
+                        <div class="form-group" style="position: relative;">
+                            <label for="motorista_search">Motorista</label>
+                            <input type="text" id="motorista_search" placeholder="Digite o nome do motorista">
+                            <input type="hidden" id="motorista_id" name="motorista">
+                            <div id="motorista_suggestions" class="suggestions"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="status">Status</label>
+                            <select id="status" name="status" required>
+                                <option value="Em manutenção">Em manutenção</option>
+                                <option value="Finalizado">Finalizado</option>
+                                <option value="Cancelado">Cancelado</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="flex2">
+                        <div class="form-group">
+                            <label for="valor_manutencao">Valor da Manutenção</label>
+                            <input type="text" id="valor_manutencao" name="valor_manutencao" placeholder="Digite o valor" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="local_manutencao">Local da Manutenção</label>
+                            <input type="text" id="local_manutencao" name="local_manutencao" placeholder="Digite o local" maxlength="150" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="descricao_manutencao">Descrição da Manutenção</label>
+                            <textarea class="observacao" id="descricao_manutencao" name="descricao_manutencao" placeholder="Faça uma descrição" required></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="submit-btn">
+                    <button type="submit">Adicionar</button>
+                </div>
+            </form>
+        </div>
+    </main>
+</body>
+</html>

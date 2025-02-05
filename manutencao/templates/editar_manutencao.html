@@ -1,0 +1,92 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Utiliza o mesmo CSS dos cadastros de aluguel/manutenção para manter a consistência -->
+    <link rel="stylesheet" href="{% static 'css/cadastro.css' %}">
+    <title>Editar Manutenção</title>
+</head>
+<body>
+    {% block sidebar %}
+        {% include 'nav.html' %}
+    {% endblock %}
+
+    <main>
+        <div class="title">
+            <h1>Editar Manutenção</h1>
+        </div>
+        <div class="container">
+            <!-- Navbar para manter a identidade visual -->
+            <nav class="navbar">
+                <ul>
+                    <li>
+                        <span>Manutenção</span>
+                    </li>
+                </ul>
+            </nav>
+            <div class="line_nav"></div>
+            <form method="POST">
+                {% csrf_token %}
+                <div class="flex">
+                    <!-- Coluna Esquerda -->
+                    <div class="flex1">
+                        <div class="form-group">
+                            <label for="data_manutencao">Data da Manutenção</label>
+                            <input type="date" id="data_manutencao" name="data_manutencao" value="{{ manutencao.data_manutencao|date:'Y-m-d' }}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="veiculo">Veículo</label>
+                            <select id="veiculo" name="veiculo">
+                                {% for veiculo in veiculos %}
+                                    <option value="{{ veiculo.id }}" {% if veiculo.id == manutencao.veiculo.id %}selected{% endif %}>
+                                        {{ veiculo.placa }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="motorista">Motorista</label>
+                            <select id="motorista" name="motorista">
+                                <option value="">-- Nenhum --</option>
+                                {% for motorista in motoristas %}
+                                    <option value="{{ motorista.id }}" {% if motorista.id == manutencao.motorista.id %}selected{% endif %}>
+                                        {{ motorista.nome }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="valor_manutencao">Valor da Manutenção</label>
+                            <input type="text" id="valor_manutencao" name="valor_manutencao" value="{{ manutencao.valor_manutencao|default:''|floatformat:2 }}" oninput="formatarValor(this)" required>
+                        </div>
+                    </div>
+                    <!-- Coluna Direita -->
+                    <div class="flex2">
+                        <div class="form-group">
+                            <label for="local_manutencao">Local da Manutenção</label>
+                            <input type="text" id="local_manutencao" name="local_manutencao" maxlength="150" value="{{ manutencao.local_manutencao }}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="status">Status</label>
+                            <select id="status" name="status" required>
+                                <option value="Em manutenção" {% if manutencao.status == "Em manutenção" %}selected{% endif %}>Em manutenção</option>
+                                <option value="Finalizado" {% if manutencao.status == "Finalizado" %}selected{% endif %}>Concluída</option>
+                                <option value="Cancelado" {% if manutencao.status == "Cancelado" %}selected{% endif %}>Cancelada</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="descricao_manutencao">Descrição da Manutenção</label>
+                            <textarea class="observacao" id="descricao_manutencao" name="descricao_manutencao" required>{{ manutencao.descricao_manutencao }}</textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="submit-btn">
+                    <button type="submit">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </main>
+</body>
+</html>

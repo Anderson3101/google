@@ -1,0 +1,91 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'css/calendario.css' %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendário</title>
+</head>
+<body>
+    {% include 'nav.html' %}
+    <main>
+        <div class="title">
+            <h1>Calendário</h1>
+        </div>
+        <div class="container">
+            <!-- Seletor de dias -->
+            <div class="dias-semana">
+                <button class="dia-btn" data-dia="Segunda-feira">Segunda-feira</button>
+                <button class="dia-btn" data-dia="Terça-feira">Terça-feira</button>
+                <button class="dia-btn" data-dia="Quarta-feira">Quarta-feira</button>
+                <button class="dia-btn" data-dia="Quinta-feira">Quinta-feira</button>
+                <button class="dia-btn" data-dia="Sexta-feira">Sexta-feira</button>
+                <button class="dia-btn" data-dia="Sábado">Sábado</button>
+                <button class="dia-btn" data-dia="Domingo">Domingo</button>
+            </div>
+
+            <!-- Navegação de semanas -->
+            <div class="navegacao-semana">
+                <button id="prevSemana">Semana Anterior</button>
+                <span id="infoSemana">Semana Atual</span>
+                <button id="nextSemana">Próxima Semana</button>
+            </div>
+
+            <!-- Área para exibir os pagamentos -->
+            <div id="resultadoPagamentos">
+                <!-- Os dados serão inseridos aqui via JavaScript -->
+            </div>
+        </div>
+    </main>
+
+    <script src="{% static 'js/jquery-3.7.1.min.js' %}"></script>
+    <script>
+        let weekOffset = 0;
+        let diaSelecionado = null;
+
+        function buscarPagamentos(dia) {
+            if (!dia) return;
+            $.ajax({
+                url: "{% url 'buscar_pagamentos_dia' %}",
+                data: { dia_semana: dia, week_offset: weekOffset },
+                success: function (dados) {
+                    let html = "<table><tr><th>Motorista</th><th>Veículo</th><th>Valor Semanal</th><th>Data Prevista</th></tr>";
+                    if (dados.length > 0) {
+                        dados.forEach(function(item) {
+                            html += `<tr>
+                                        <td>${item.motorista}</td>
+                                        <td>${item.veiculo}</td>
+                                        <td>${item.valor_semanal}</td>
+                                        <td>${item.data_prevista}</td>
+                                     </tr>`;
+                        });
+                    } else {
+                        html += "<tr><td colspan='4'>Nenhum pagamento encontrado.</td></tr>";
+                    }
+                    html += "</table>";
+                    $("#resultadoPagamentos").html(html);
+                }
+            });
+        }
+
+        // Ação ao clicar em um dia da semana
+        $(".dia-btn").click(function(){
+            diaSelecionado = $(this).data("dia");
+            buscarPagamentos(diaSelecionado);
+        });
+
+        // Navegação de semanas
+        $("#prevSemana").click(function(){
+            weekOffset -= 1;
+            $("#infoSemana").text("Semana com offset " + weekOffset);
+            if(diaSelecionado) buscarPagamentos(diaSelecionado);
+        });
+        $("#nextSemana").click(function(){
+            weekOffset += 1;
+            $("#infoSemana").text("Semana com offset " + weekOffset);
+            if(diaSelecionado) buscarPagamentos(diaSelecionado);
+        });
+    </script>
+</body>
+</html>

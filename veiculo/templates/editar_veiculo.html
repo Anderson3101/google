@@ -1,0 +1,117 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Incluindo os arquivos CSS e JS -->
+    <link rel="stylesheet" href="{% static 'css/cadastro.css' %}">
+    <script src="{% static 'js/editar_veiculo.js' %}"></script>
+    <script src="{% static 'js/jquery-3.7.1.min.js' %}"></script>
+    <script src="{% static 'js/jquery.mask.min.js' %}"></script>
+    <script src="{% static 'js/mascara.js' %}"></script>
+    <title>Editar Veículo</title>
+</head>
+<body>
+    {% block sidebar %}
+        {% include 'nav.html' %}
+    {% endblock %}
+
+    <main>
+        <div class="title">
+            <h1>Editar veículo</h1>
+        </div>
+
+        <div class="container">
+            <!-- Barra de navegação -->
+            <nav class="navbar">
+                <ul>
+                    <li>
+                        <span>Veículo</span>
+                    </li>
+                </ul>
+            </nav>
+            <div class="line_nav"></div>
+
+            <form method="POST">
+                {% csrf_token %}
+                <div class="flex">
+                    <!-- Coluna Esquerda -->
+                    <div class="flex1">
+                        <div class="form-group">
+                            <label for="marca">Marca</label>
+                            <select name="marca" id="marca">
+                                <option value="">Selecione uma marca</option>
+                                <option value="Chevrolet" {% if veiculo.marca == "Chevrolet" %}selected{% endif %}>Chevrolet</option>
+                                <option value="Fiat" {% if veiculo.marca == "Fiat" %}selected{% endif %}>Fiat</option>
+                                <option value="Honda" {% if veiculo.marca == "Honda" %}selected{% endif %}>Honda</option>
+                                <option value="Peugeot" {% if veiculo.marca == "Peugeot" %}selected{% endif %}>Peugeot</option>
+                                <option value="Jeep" {% if veiculo.marca == "Jeep" %}selected{% endif %}>Jeep</option>
+                                <option value="Toyota" {% if veiculo.marca == "Toyota" %}selected{% endif %}>Toyota</option>
+                                <option value="Hyundai" {% if veiculo.marca == "Hyundai" %}selected{% endif %}>Hyundai</option>
+                                <option value="Volkswagen" {% if veiculo.marca == "Volkswagen" %}selected{% endif %}>Volkswagen</option>
+                                <option value="Renault" {% if veiculo.marca == "Renault" %}selected{% endif %}>Renault</option>
+                                <option value="Nissan" {% if veiculo.marca == "Nissan" %}selected{% endif %}>Nissan</option>
+                                <option value="Ford" {% if veiculo.marca == "Ford" %}selected{% endif %}>Ford</option>
+                                <option value="Kia" {% if veiculo.marca == "Kia" %}selected{% endif %}>Kia</option>
+                                <option value="BYD" {% if veiculo.marca == "BYD" %}selected{% endif %}>BYD</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="modelo">Modelo</label>
+                            <select name="modelo" id="modelo">
+                                <option value="{{ veiculo.modelo }}" selected>{{ veiculo.modelo }}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="combustivel">Combustível</label>
+                            <select name="combustivel" id="combustivel">
+                                <option value="{{ veiculo.combustivel }}" selected>{{ veiculo.combustivel }}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="ano">Ano</label>
+                            <select name="ano" id="ano">
+                                <option value="{{ veiculo.ano }}" selected>{{ veiculo.ano }}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Coluna Direita -->
+                    <div class="flex2">
+                        <div class="form-group">
+                            <label for="placa">Placa</label>
+                            <input type="text" name="placa" id="placa" class="placa" value="{{ veiculo.placa }}" placeholder="Digite a placa do veículo" oninput="this.value = this.value.toUpperCase();">
+                        </div>
+                        <div class="form-group">
+                            <label for="km_atual">Quilômetro Atual</label>
+                            <input type="text" name="km_atual" id="km_atual" class="km_atual" value="{{ veiculo.km_atual }}" placeholder="Digite o quilômetro atual">
+                        </div>
+                        <div class="form-group">
+                            <label for="status">Status</label>
+                            <select name="status" id="status">
+                                <option value="Disponível" {% if veiculo.status == "Disponível" %}selected{% endif %}>Disponível</option>
+                                <option value="Indisponível" {% if veiculo.status == "Indisponível" %}selected{% endif %}>Indisponível</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="cambio">Câmbio</label>
+                            <select name="cambio" id="cambio">
+                                <option value="Manual" {% if veiculo.cambio == "Manual" %}selected{% endif %}>Manual</option>
+                                <option value="Automático" {% if veiculo.cambio == "Automático" %}selected{% endif %}>Automático</option>
+                                <option value="Automatizado" {% if veiculo.cambio == "Automatizado" %}selected{% endif %}>Automatizado</option>
+                                <option value="CVT" {% if veiculo.cambio == "CVT" %}selected{% endif %}>CVT</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="submit-btn">
+                    <button type="submit">Editar</button>
+                </div>
+            </form>
+        </div>
+    </main>
+</body>
+</html>

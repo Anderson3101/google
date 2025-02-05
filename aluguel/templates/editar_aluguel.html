@@ -1,0 +1,99 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Reaproveitando a estilização do cadastro de aluguel -->
+    <link rel="stylesheet" href="{% static 'css/cadastro.css' %}">
+    <script src="{% static 'js/jquery-3.7.1.min.js' %}"></script>
+    <script src="{% static 'js/jquery.mask.min.js' %}"></script>
+    <script src="{% static 'js/mascara.aluguel.js' %}"></script>
+    <script src="{% static 'js/cadastro_aluguel.js' %}"></script>
+    <title>Editar Aluguel</title>
+</head>
+<body>
+    {% block sidebar %}
+        {% include 'nav.html' %}
+    {% endblock %}
+
+    <main>
+        <div class="title">
+            <h1>Editar Aluguel</h1>
+        </div>
+        <div class="container">
+            <!-- Barra de navegação específica para Aluguel -->
+            <nav class="navbar">
+                <ul>
+                    <li>
+                        <span>Aluguel</span>
+                    </li>
+                </ul>
+            </nav>
+            <div class="line_nav"></div>
+            <form method="POST">
+                {% csrf_token %}
+                <!-- Campo oculto para identificar o aluguel -->
+                <input type="hidden" name="id" value="{{ aluguel.id }}">
+                <div class="flex">
+                    <!-- Coluna 1 -->
+                    <div class="flex1">
+                        <div class="form-group">
+                            <label for="data_inicio">Data Início</label>
+                            <input type="date" id="data_inicio" name="data_inicio" value="{{ aluguel.data_inicio|date:'Y-m-d' }}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="data_fim">Data Fim</label>
+                            <input type="date" id="data_fim" name="data_fim" value="{{ aluguel.data_fim|date:'Y-m-d' }}">
+                        </div>
+                        <div class="form-group" style="position: relative;">
+                            <label for="veiculo_search">Veículo</label>
+                            <!-- Se preferir manter o select, use-o; caso queira auto-complete, adapte conforme a página de cadastro -->
+                            <select id="veiculo" name="veiculo">
+                                {% for veiculo in veiculos %}
+                                    <option value="{{ veiculo.id }}" {% if veiculo.id == aluguel.veiculo.id %}selected{% endif %}>
+                                        {{ veiculo.placa }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="motorista">Motorista</label>
+                            <select id="motorista" name="motorista">
+                                <option value="">-- Nenhum --</option>
+                                {% for motorista in motoristas %}
+                                    <option value="{{ motorista.id }}" {% if motorista.id == aluguel.motorista.id %}selected{% endif %}>
+                                        {{ motorista.nome }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <!-- Coluna 2 -->
+                    <div class="flex2">
+                        <div class="form-group">
+                            <label for="km_atual">Quilômetro Atual</label>
+                            <input type="text" id="km_atual" name="km_atual" class="km_atual" value="{{ aluguel.km_atual }}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="taxa">Taxa</label>
+                            <input type="text" id="taxa" name="taxa" value="{{ aluguel.taxa }}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="data_pagamento">Data de Pagamento</label>
+                            <input type="date" id="data_pagamento" name="data_pagamento" class="data_pagamento" value="{{ aluguel.data_pagamento|date:'Y-m-d' }}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="valor_pago">Valor Pago</label>
+                            <input type="text" id="valor_pago" name="valor_pago" value="{{ aluguel.valor_pago|floatformat:2 }}" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="submit-btn">
+                    <button type="submit">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </main>
+</body>
+</html>
